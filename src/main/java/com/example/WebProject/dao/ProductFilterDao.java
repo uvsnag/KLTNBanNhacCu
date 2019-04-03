@@ -19,7 +19,7 @@ import com.example.WebProject.repository.ProductRepository;
 @Repository
 public class ProductFilterDao {
 	@Autowired
-	 private ProductRepository productRepository;
+	private ProductRepository productRepository;
 	@Autowired
     private Category2Repository category2Repository;
 	 

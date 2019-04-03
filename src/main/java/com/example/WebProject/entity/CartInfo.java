@@ -8,6 +8,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,6 +26,7 @@ public class CartInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
 	private int id;
 
@@ -31,9 +34,9 @@ public class CartInfo implements Serializable {
 		super();
 	}
 
-	public CartInfo(int id, Date date, Customer idcustomer, int done, int amount, int num) {
+	public CartInfo( Date date, Customer idcustomer, int done, int amount, int num) {
 		super();
-		this.id = id;
+	
 		this.date = date;
 		this.idcustomer = idcustomer;
 		this.done = done;

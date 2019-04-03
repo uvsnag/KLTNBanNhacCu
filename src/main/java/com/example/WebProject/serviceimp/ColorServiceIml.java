@@ -20,11 +20,7 @@ public class ColorServiceIml 	implements ColorService {
 		        return colorRepository.findAll();
 		    }
 
-		    @Override
-		    public List<Color> search(String q) {
-		        return colorRepository.findByNameContaining(q);
-		    }
-
+		   
 		    @Override
 		    public Color findOne(int id) {
 		        return colorRepository.findOne(id);
@@ -41,6 +37,6 @@ public class ColorServiceIml 	implements ColorService {
 		    }
 		    @Override
 		    public List<Color> findByNameContaining(String q){
-		    	return colorRepository.findByNameContaining(q);
+		    	return colorRepository.findByName(q);
 		    }
 	}

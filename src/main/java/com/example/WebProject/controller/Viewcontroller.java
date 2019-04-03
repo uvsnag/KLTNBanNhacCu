@@ -27,7 +27,7 @@ import com.example.WebProject.entity.Comment;
 import com.example.WebProject.entity.CommentRate;
 import com.example.WebProject.entity.CommentRateIndentity;
 import com.example.WebProject.entity.Customer;
-import com.example.WebProject.entity.Ma;
+
 import com.example.WebProject.entity.Products;
 import com.example.WebProject.model.CartLineModel;
 import com.example.WebProject.model.CommentModel;
@@ -40,7 +40,7 @@ import com.example.WebProject.service.Category2Service;
 import com.example.WebProject.service.CommentRateService;
 import com.example.WebProject.service.CommentService;
 import com.example.WebProject.service.CustomerService;
-import com.example.WebProject.service.MaService;
+
 import com.example.WebProject.service.ProductFilterService;
 import com.example.WebProject.serviceimp.ProductServiceImp;
 
@@ -64,13 +64,12 @@ public class Viewcontroller {
 	private CustomerService customerService;
 	@Autowired
 	private CommentRateService commentRateService;
-	@Autowired
-	private MaService maService;
+
 	
 	@Autowired
 	private CommentService commentService;
 
-	private Ma ma;
+
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private void AddProductNumber(Model model) {
@@ -127,12 +126,7 @@ public class Viewcontroller {
 	void savecomment(CommentModel onecomment, Model model){ //this product save comment and increase index
 		int idprduct = onecomment.getId();
 		Comment cmt = new Comment(onecomment.getName(), onecomment.getPhone(), onecomment.getComment(), onecomment.getNote());
-		// set id
-		ma = maService.findOne(1);
-		cmt.setId(ma.getComment());
-		ma = new Ma(1, ma.getProduct(), ma.getProducer(), ma.getColor(), ma.getCart(), ma.getCartline(),
-				ma.getComment() + 1);
-		maService.save(ma);
+		
 		//
 		Date date = new Date();
 		cmt.setDate(date);
@@ -465,21 +459,15 @@ public class Viewcontroller {
 		// save customer
 		customerService.save(contact);
 
-		ma = maService.findOne(1);
+		//ma = maService.findOne(1);
 
 		//
 		// save cartinfo
 		Date date = new Date();
-		CartInfo cartInfo = new CartInfo(ma.getCart(), date, contact, 0, SumMoney(WebProjectApplication.listCartLine),
+		CartInfo cartInfo = new CartInfo( date, contact, 0, SumMoney(WebProjectApplication.listCartLine),
 				WebProjectApplication.productNumber);
 		cartInfoService.save(cartInfo);
-		//
-		// int new id for cartline and save
-		//
-		ma = new Ma(1, ma.getProduct(), ma.getProducer(), ma.getColor(), ma.getCart() + 1, ma.getCartline(),
-				ma.getComment());
-		maService.save(ma);
-
+		
 		// save cartlineinfo
 		CartLineInfo cli;
 		CartLineInfoIndentity cliId;

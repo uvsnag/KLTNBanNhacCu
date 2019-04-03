@@ -16,6 +16,6 @@ public interface ColorService {
 
     void delete(int id);
 
-	List<Color> search(String q);
+	
 	List<Color> findByNameContaining(String q);
 }
