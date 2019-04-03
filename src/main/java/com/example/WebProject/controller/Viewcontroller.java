@@ -52,8 +52,6 @@ public class Viewcontroller {
 
 	@Autowired private ProductServiceImp productService;
 
-	
-
 	@Autowired
 	private Category2Service categoryService;
 	//
