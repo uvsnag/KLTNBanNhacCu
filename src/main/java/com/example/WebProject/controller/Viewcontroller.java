@@ -27,7 +27,7 @@ import com.example.WebProject.entity.Comment;
 import com.example.WebProject.entity.CommentRate;
 import com.example.WebProject.entity.CommentRateIndentity;
 import com.example.WebProject.entity.Customer;
-
+import com.example.WebProject.entity.PriceSearch;
 import com.example.WebProject.entity.Products;
 import com.example.WebProject.model.CartLineModel;
 import com.example.WebProject.model.CommentModel;
@@ -40,7 +40,7 @@ import com.example.WebProject.service.Category2Service;
 import com.example.WebProject.service.CommentRateService;
 import com.example.WebProject.service.CommentService;
 import com.example.WebProject.service.CustomerService;
-
+import com.example.WebProject.service.PriceSearchService;
 import com.example.WebProject.service.ProductFilterService;
 import com.example.WebProject.serviceimp.ProductServiceImp;
 
@@ -48,12 +48,13 @@ import com.example.WebProject.serviceimp.ProductServiceImp;
 public class Viewcontroller {
 	@Autowired
 	private ProductFilterService productFilterService;
-	
+	@Autowired
+	private PriceSearchService priceSearchService;
 
 	@Autowired private ProductServiceImp productService;
 
 	@Autowired
-	private Category2Service categoryService;
+	private Category2Service category2Service;
 	//
 	@Autowired
 	private CartInfoService cartInfoService;
@@ -242,22 +243,56 @@ public class Viewcontroller {
 	}
 
 	// addmodel
-	private void PrAddModel(Model model) {
-		model.addAttribute("filter", new ProductFillter(-1, -1, -1, -1));
-
+	/*
+	 * private void PrAddModel(Model model) { model.addAttribute("filter", new
+	 * ProductFillter(-1, -1, -1, -1));
+	 * 
+	 * }
+	 */
+	private void AddAtribute(Model model, int id) {// id: id category of product
+		ProductFillter prdFilter=new ProductFillter(-1, -1, -1, -1);
+		PriceSearch priceSearch =priceSearchService.findOne(id);
+		prdFilter.setPriceView1(priceSearch.getPrice1()%1000000==0 ? Integer.toString(priceSearch.getPrice1()/1000000) 
+				: Integer.toString(priceSearch.getPrice1()/1000000)+","+Integer.toString((priceSearch.getPrice1()%1000000)/100000));
+		prdFilter.setPriceView2(priceSearch.getPrice2()%1000000==0 ? Integer.toString(priceSearch.getPrice2()/1000000) 
+				: Integer.toString(priceSearch.getPrice2()/1000000)+","+Integer.toString((priceSearch.getPrice2()%1000000)/100000));
+		prdFilter.setPriceView3(priceSearch.getPrice3()%1000000==0 ? Integer.toString(priceSearch.getPrice3()/1000000) 
+				: Integer.toString(priceSearch.getPrice3()/1000000)+","+Integer.toString((priceSearch.getPrice3()%1000000)/100000));
+		
+		model.addAttribute("filter",prdFilter );
+		
+		model.addAttribute("producers", productFilterService.list5Producer(id));
+		model.addAttribute("categories", category2Service.findByIdcpContaining(id));
+	}
+	private void AddAtribute2(Model model, int id) {// id: id category of product
+		ProductFillter prdFilter=new ProductFillter(-1, -1, -1, -1);
+		PriceSearch priceSearch =priceSearchService.findOne(id);
+		prdFilter.setPriceView1(priceSearch.getPrice1()%10000==0 ? Integer.toString(priceSearch.getPrice1()/1000) 
+				: Integer.toString(priceSearch.getPrice1()/1000)+","+Integer.toString((priceSearch.getPrice1()%1000)/100));
+		prdFilter.setPriceView2(priceSearch.getPrice2()%1000000==0 ? Integer.toString(priceSearch.getPrice2()/1000000) 
+				: Integer.toString(priceSearch.getPrice2()/1000000)+","+Integer.toString((priceSearch.getPrice2()%1000000)/100000));
+		prdFilter.setPriceView3(priceSearch.getPrice3()%1000000==0 ? Integer.toString(priceSearch.getPrice3()/1000000) 
+				: Integer.toString(priceSearch.getPrice3()/1000000)+","+Integer.toString((priceSearch.getPrice3()%1000000)/100000));
+		
+		model.addAttribute("filter",prdFilter );
+		
+		model.addAttribute("producers", productFilterService.list5Producer(id));
+		model.addAttribute("categories", category2Service.findByIdcpContaining(id));
 	}
 
+	
+	
+	
+	
 	/* guitar */
 	@GetMapping("/guitar")
 	public String bbb(Model model) {
 		model.addAttribute("tittle", "GUITAR");
 
 		model.addAttribute("guitars", productService.findAllInfoProduct(WebProjectApplication.filterGuitar));
-		PrAddModel(model);
+		
 		AddProductNumber(model);
-		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterGuitar));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(WebProjectApplication.filterGuitar));
-
+		AddAtribute(model, WebProjectApplication.filterGuitar);
 		return "guitar";
 	}
 
@@ -278,12 +313,11 @@ public class Viewcontroller {
 	void ProductionProducts(Model model, int id, int codeProduct) {
 		// info of the left menu
 
-		PrAddModel(model);
+		AddAtribute(model, codeProduct);
 		// info of left menu
 		AddProductNumber(model);
 
-		model.addAttribute("producers", productFilterService.list5Producer(codeProduct));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(codeProduct));
+		
 		// set visits
 		Products gti = productService.findOne(id);
 		System.out.println(gti.getCategory2id().getCategory());
@@ -319,10 +353,9 @@ public class Viewcontroller {
 	@GetMapping("/piano")
 	public String piano(Model model) {
 		model.addAttribute("tittle", "PIANO");
-		PrAddModel(model);
+		
 		AddProductNumber(model);
-		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterPiano));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(WebProjectApplication.filterPiano));
+		AddAtribute(model, WebProjectApplication.filterPiano);
 		model.addAttribute("infos", productService.findAllInfoProduct(WebProjectApplication.filterPiano));
 		return "piano";
 	}
@@ -337,10 +370,9 @@ public class Viewcontroller {
 	@GetMapping("/ukulele")
 	public String ukulele(Model model) {
 		model.addAttribute("tittle", "UKULELE");
-		PrAddModel(model);
+		
 		AddProductNumber(model);
-		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterUkulele));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(WebProjectApplication.filterUkulele));
+		AddAtribute2(model, WebProjectApplication.filterUkulele);
 		model.addAttribute("infos", productService.findAllInfoProduct(WebProjectApplication.filterUkulele));
 		return "ukulele";
 	}
@@ -355,10 +387,9 @@ public class Viewcontroller {
 	@GetMapping("/flute")
 	public String flute(Model model) {
 		model.addAttribute("tittle", "SÁO TRÚC");
-		PrAddModel(model);
+		
 		AddProductNumber(model);
-		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterFlute));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(WebProjectApplication.filterFlute));
+		AddAtribute2(model, WebProjectApplication.filterFlute);
 		model.addAttribute("infos", productService.findAllInfoProduct(WebProjectApplication.filterFlute));
 		return "flute";
 	}
@@ -373,10 +404,9 @@ public class Viewcontroller {
 	@GetMapping("/drum")
 	public String drum(Model model) {
 		model.addAttribute("tittle", "TRỐNG");
-		PrAddModel(model);
+		
 		AddProductNumber(model);
-		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterDrum));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(WebProjectApplication.filterDrum));
+		AddAtribute(model, WebProjectApplication.filterDrum);
 		model.addAttribute("infos", productService.findAllInfoProduct(WebProjectApplication.filterDrum));
 		return "drum";
 	}
@@ -391,10 +421,9 @@ public class Viewcontroller {
 	@GetMapping("/accessory")
 	public String accessory(Model model) {
 		model.addAttribute("tittle", "PHỤ KIỆN");
-		PrAddModel(model);
+		
 		AddProductNumber(model);
-		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterAccessory));
-		model.addAttribute("categories", categoryService.findByIdcpContaining(WebProjectApplication.filterAccessory));
+		AddAtribute2(model, WebProjectApplication.filterAccessory);
 		model.addAttribute("infos", productService.findAllInfoProduct(WebProjectApplication.filterAccessory));
 		return "accessory";
 	}

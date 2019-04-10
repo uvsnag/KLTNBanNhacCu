@@ -33,6 +33,7 @@ import com.example.WebProject.service.Category2Service;
 import com.example.WebProject.service.CategoryService;
 import com.example.WebProject.service.ColorService;
 import com.example.WebProject.service.ProducerService;
+import com.example.WebProject.service.ProductService;
 import com.example.WebProject.validator.EditColorValidator;
 import com.example.WebProject.validator.EditProducerValidator;
 import com.example.WebProject.validator.EditProductValidator;
@@ -42,7 +43,8 @@ public class AdGuitarController {
 	@Autowired
 	 private ProductRepository productRepository;
 	@Autowired
-	private ProductDao productDao;
+	private ProductService productService;
+	
 
 	//
 	@Autowired
@@ -113,7 +115,7 @@ public class AdGuitarController {
 	@GetMapping("/adguitar/{id}/edit")
 	public String edit(@PathVariable int id, Model model) {
 
-		model.addAttribute("contact", productDao.findProductInfoSave(id));
+		model.addAttribute("contact", productService.findProductInfoSave(id));
 		AddCategoryColorProduct(model);
 		model.addAttribute("filter", WebProjectApplication.filterGuitar);
 		return "/admin/GuitarEdit";
@@ -129,7 +131,7 @@ public class AdGuitarController {
 		}
 
 		contact.setValid(true);
-		productDao.save(contact);
+		productService.save(contact);
 		
 		redirect.addFlashAttribute("success", "Saved guitar successfully!");
 		return "redirect:/adguitar";
@@ -158,7 +160,7 @@ public class AdGuitarController {
 			return "/admin/GuitarCreate";
 		}
 		contact.setValid(true);
-		productDao.SaveCreate(contact);
+		productService.SaveCreate(contact);
 		// productService.save(guitar);
 		redirect.addFlashAttribute("success", "Saved guitar successfully!");
 		return "redirect:/adguitar";

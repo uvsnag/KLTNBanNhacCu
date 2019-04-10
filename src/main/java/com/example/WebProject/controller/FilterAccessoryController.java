@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.WebProject.WebProjectApplication;
+import com.example.WebProject.entity.PriceSearch;
 import com.example.WebProject.model.ProductFillter;
 import com.example.WebProject.model.ProductInfo;
 import com.example.WebProject.service.Category2Service;
+import com.example.WebProject.service.PriceSearchService;
 import com.example.WebProject.service.ProducerService;
 import com.example.WebProject.service.ProductFilterService;
 import com.example.WebProject.service.ProductService;
@@ -36,9 +38,19 @@ public class FilterAccessoryController {
 	
 	@Autowired
 	private Category2Service category2Service;
-	
+	@Autowired
+	private PriceSearchService priceSearchService;
 	private void AddAtribute(Model model){ //  in this class this function be showed all other func
-		model.addAttribute("filter", new ProductFillter(-1, -1, -1, -1));
+		ProductFillter prdFilter=new ProductFillter(-1, -1, -1, -1);
+		PriceSearch priceSearch =priceSearchService.findOne(WebProjectApplication.filterAccessory);
+		prdFilter.setPriceView1(priceSearch.getPrice1()%10000==0 ? Integer.toString(priceSearch.getPrice1()/1000) 
+				: Integer.toString(priceSearch.getPrice1()/1000)+","+Integer.toString((priceSearch.getPrice1()%1000)/100));
+		prdFilter.setPriceView2(priceSearch.getPrice2()%1000000==0 ? Integer.toString(priceSearch.getPrice2()/1000000) 
+				: Integer.toString(priceSearch.getPrice2()/1000000)+","+Integer.toString((priceSearch.getPrice2()%1000000)/100000));
+		prdFilter.setPriceView3(priceSearch.getPrice3()%1000000==0 ? Integer.toString(priceSearch.getPrice3()/1000000) 
+				: Integer.toString(priceSearch.getPrice3()/1000000)+","+Integer.toString((priceSearch.getPrice3()%1000000)/100000));
+		
+		model.addAttribute("filter",prdFilter );
 		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterAccessory));
 		model.addAttribute("categories", category2Service.findByIdcpContaining(WebProjectApplication.filterAccessory));
 		model.addAttribute("prnumber", WebProjectApplication.productNumber);
@@ -105,14 +117,15 @@ public class FilterAccessoryController {
 	}
 	List<ProductInfo> ListPrice(int p1, List<ProductInfo> listaccessoryInfo  ){
 		List<ProductInfo> accessoryInfo=new ArrayList<ProductInfo>();
+		PriceSearch priceSearch =priceSearchService.findOne(WebProjectApplication.filterAccessory);
 		switch(p1){
-		case 1: accessoryInfo=productFilterService.filterPrice(1,100000, listaccessoryInfo);
+		case 1: accessoryInfo=productFilterService.filterPrice(1,priceSearch.getPrice1(), listaccessoryInfo);
 		break;
-		case 2: accessoryInfo=productFilterService.filterPrice(100000,300000, listaccessoryInfo);
+		case 2: accessoryInfo=productFilterService.filterPrice(priceSearch.getPrice1(),priceSearch.getPrice2(), listaccessoryInfo);
 		break;
-		case 3: accessoryInfo=productFilterService.filterPrice(300000,500000, listaccessoryInfo);
+		case 3: accessoryInfo=productFilterService.filterPrice(priceSearch.getPrice2(),priceSearch.getPrice3(), listaccessoryInfo);
 		break;
-		case 4: accessoryInfo=productFilterService.filterPrice(500000, listaccessoryInfo);
+		case 4: accessoryInfo=productFilterService.filterPrice(priceSearch.getPrice3(), listaccessoryInfo);
 		break;
 		}
 		return accessoryInfo;
