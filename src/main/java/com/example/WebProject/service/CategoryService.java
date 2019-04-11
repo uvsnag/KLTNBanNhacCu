@@ -16,5 +16,5 @@ public interface CategoryService {
 
     void delete(int id);
 	List<Category> search(String q);
-	 List<Category> findByCategoryContaining(String q);
+	 Category findByCategoryContaining(String q);
 }

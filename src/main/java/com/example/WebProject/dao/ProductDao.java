@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.WebProject.entity.Color;
 import com.example.WebProject.entity.CommentRateView;
 
 import com.example.WebProject.entity.Products;
@@ -24,6 +25,9 @@ import com.example.WebProject.repository.CategoryRepository;
 import com.example.WebProject.repository.ColorRepository;
 import com.example.WebProject.repository.ProducerRepository;
 import com.example.WebProject.repository.ProductRepository;
+import com.example.WebProject.service.Category2Service;
+import com.example.WebProject.service.CategoryService;
+import com.example.WebProject.service.ColorService;
 
 @Transactional
 @Repository
@@ -32,11 +36,11 @@ public class ProductDao {
 	@Autowired
 	 private ProductRepository productRepository;
 	@Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 	@Autowired
-    private Category2Repository category2Repository;
+    private Category2Service category2Service;
 	@Autowired
-    private ColorRepository colorRepository;
+    private ColorService colorService;
 	@Autowired
     private ProducerRepository producerRepository;
 
@@ -215,10 +219,10 @@ public class ProductDao {
 		// create objectProductsfrom productinfo
 		final byte[] productImage = productRepository.findOne(productInfo.getId()).getImage();
 		Products gt = new Products(productInfo.getId(), productInfo.getName(),
-				categoryRepository.findByCategoryContaining(productInfo.getCategory()).get(0),
-				category2Repository.findByCategoryContaining(productInfo.getCategory2()).get(0),
+				categoryService.findByCategoryContaining(productInfo.getCategory()),
+				category2Service.findByCategoryContaining(productInfo.getCategory2()),
 				producerRepository.findByNameContaining(productInfo.getProducer()).get(0),
-				colorRepository.findByName(productInfo.getColor()).get(0), productInfo.getSoluong(),
+				colorService.findByNameContaining(productInfo.getColor()), productInfo.getSoluong(),
 				productInfo.getGia(), productInfo.getGiamgia(),
 				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()));
 		// set date
@@ -263,12 +267,15 @@ public class ProductDao {
 		// int entityProductsfrom productInfo-non gianiemyet, rate, status
 		String s=productInfo.getColor();
 		System.out.println(s);
-		System.out.println(colorRepository.findByName(productInfo.getColor()).size());
+		System.out.println(colorService.findByNameContaining(productInfo.getColor()));
+		for(Color cl:colorService.findAll()) {
+			System.out.println(cl.getName());
+		}
 		Products gt = new Products( productInfo.getName(),
-				categoryRepository.findByCategoryContaining(productInfo.getCategory()).get(0),
-				category2Repository.findByCategoryContaining(productInfo.getCategory2()).get(0),
+				categoryService.findByCategoryContaining(productInfo.getCategory()),
+				category2Service.findByCategoryContaining(productInfo.getCategory2()),
 				producerRepository.findByNameContaining(productInfo.getProducer()).get(0),
-				colorRepository.findByName(productInfo.getColor()).get(0), 
+				colorService.findByNameContaining(productInfo.getColor()), 
 				0, 0, productInfo.getSoluong(),
 				productInfo.getGia(), productInfo.getGiamgia(),
 				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()), 0);

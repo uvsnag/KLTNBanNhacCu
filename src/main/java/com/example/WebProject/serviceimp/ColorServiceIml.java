@@ -36,7 +36,13 @@ public class ColorServiceIml 	implements ColorService {
 		    	colorRepository.delete(id);
 		    }
 		    @Override
-		    public List<Color> findByNameContaining(String q){
-		    	return colorRepository.findByName(q);
+		    public Color findByNameContaining(String q){
+		    	Color result=new Color();
+		    	for(Color cl:colorRepository.findAll()) {
+					if(q.equals(cl.getName())) {
+						result= cl;
+					}
+				}
+		    	return result;
 		    }
 	}
