@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -23,6 +25,7 @@ public class Products implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)
 	private int id;
 
@@ -86,10 +89,10 @@ public class Products implements Serializable {
 	}
 
 
-	public Products(int id, String name, Category categoryid, Category2 category2id, Producer producerid, Color colorid,
+	public Products( String name, Category categoryid, Category2 category2id, Producer producerid, Color colorid,
 			double rate, int soluot, int soluong, String gia, int giamgia, String giasaugiam, int visits) {
 		super();
-		this.id = id;
+	
 		this.name = name;
 		this.categoryid = categoryid;
 		this.category2id = category2id;

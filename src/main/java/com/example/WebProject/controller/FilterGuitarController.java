@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.WebProject.WebProjectApplication;
+import com.example.WebProject.entity.PriceSearch;
 import com.example.WebProject.model.ProductFillter;
 import com.example.WebProject.model.ProductInfo;
 import com.example.WebProject.service.Category2Service;
+import com.example.WebProject.service.PriceSearchService;
 import com.example.WebProject.service.ProducerService;
 import com.example.WebProject.service.ProductFilterService;
 import com.example.WebProject.service.ProductService;
@@ -26,7 +28,8 @@ import com.example.WebProject.service.ProductService;
 public class FilterGuitarController {
 	@Autowired
 	private ProductFilterService productFilterService;
-	
+	@Autowired
+	private PriceSearchService priceSearchService;
 	@Autowired
 	private ProductService productService;
 
@@ -38,7 +41,17 @@ public class FilterGuitarController {
 	private Category2Service category2Service;
 	
 	private void AddAtribute(Model model){
-		model.addAttribute("filter", new ProductFillter(-1, -1, -1, -1));
+		ProductFillter prdFilter=new ProductFillter(-1, -1, -1, -1);
+		PriceSearch priceSearch =priceSearchService.findOne(WebProjectApplication.filterGuitar);
+		prdFilter.setPriceView1(priceSearch.getPrice1()%1000000==0 ? Integer.toString(priceSearch.getPrice1()/1000000) 
+				: Integer.toString(priceSearch.getPrice1()/1000000)+","+Integer.toString((priceSearch.getPrice1()%1000000)/100000));
+		prdFilter.setPriceView2(priceSearch.getPrice2()%1000000==0 ? Integer.toString(priceSearch.getPrice2()/1000000) 
+				: Integer.toString(priceSearch.getPrice2()/1000000)+","+Integer.toString((priceSearch.getPrice2()%1000000)/100000));
+		prdFilter.setPriceView3(priceSearch.getPrice3()%1000000==0 ? Integer.toString(priceSearch.getPrice3()/1000000) 
+				: Integer.toString(priceSearch.getPrice3()/1000000)+","+Integer.toString((priceSearch.getPrice3()%1000000)/100000));
+		
+		model.addAttribute("filter",prdFilter );
+		
 		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterGuitar));
 		model.addAttribute("categories", category2Service.findByIdcpContaining(WebProjectApplication.filterGuitar));
 		model.addAttribute("prnumber", WebProjectApplication.productNumber);
@@ -106,14 +119,15 @@ public class FilterGuitarController {
 	}
 	List<ProductInfo> ListPrice(int p1, List<ProductInfo> listguitarInfo  ){
 		List<ProductInfo> guitarInfo=new ArrayList<ProductInfo>();
+		PriceSearch priceSearch =priceSearchService.findOne(WebProjectApplication.filterGuitar);
 		switch(p1){
-		case 1: guitarInfo=productFilterService.filterPrice(1,1500000, listguitarInfo);
+		case 1: guitarInfo=productFilterService.filterPrice(1,priceSearch.getPrice1(), listguitarInfo);
 		break;
-		case 2: guitarInfo=productFilterService.filterPrice(1500000,3000000, listguitarInfo);
+		case 2: guitarInfo=productFilterService.filterPrice(priceSearch.getPrice1(),priceSearch.getPrice2(), listguitarInfo);
 		break;
-		case 3: guitarInfo=productFilterService.filterPrice(3000000,5000000, listguitarInfo);
+		case 3: guitarInfo=productFilterService.filterPrice(priceSearch.getPrice2(),priceSearch.getPrice3(), listguitarInfo);
 		break;
-		case 4: guitarInfo=productFilterService.filterPrice(5000000, listguitarInfo);
+		case 4: guitarInfo=productFilterService.filterPrice(priceSearch.getPrice3(), listguitarInfo);
 		break;
 		}
 		return guitarInfo;

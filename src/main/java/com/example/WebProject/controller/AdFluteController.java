@@ -20,7 +20,6 @@ import com.example.WebProject.model.ProductInfo;
 import com.example.WebProject.service.Category2Service;
 import com.example.WebProject.service.CategoryService;
 import com.example.WebProject.service.ColorService;
-import com.example.WebProject.service.MaService;
 import com.example.WebProject.service.ProducerService;
 import com.example.WebProject.service.ProductService;
 import com.example.WebProject.validator.EditColorValidator;
@@ -38,9 +37,7 @@ public class AdFluteController {
 	@Autowired
 	
 	private ProducerService producerService;
-	@Autowired
 	
-	private MaService maService;
 
 	@Autowired
 	private Category2Service category2Service;
@@ -115,7 +112,6 @@ public class AdFluteController {
 		ProductInfo gt=new ProductInfo();
 		
 		
-		gt.setId(maService.findOne(1).getProduct());
 		gt.setRate(0);
 		gt.setLuotdanhgia(0);
 		gt.setCategory(categoryService.findOne(WebProjectApplication.filterFlute).getCategory());

@@ -9,6 +9,11 @@ public class ProductFillter {
 	private int producer;
 	private int price1;
 	private int price2;
+	//ké giá trong csdl
+	private String priceView1;
+	private String priceView2;
+	private String priceView3;
+	
 	
 	public int getCategory2() {
 		return category2;
@@ -51,5 +56,25 @@ public class ProductFillter {
 	public void setPrice2(int price2) {
 		this.price2 = price2;
 	}
+	public String getPriceView1() {
+		return priceView1;
+	}
+	public void setPriceView1(String priceView1) {
+		this.priceView1 = priceView1;
+	}
+	public String getPriceView2() {
+		return priceView2;
+	}
+	public void setPriceView2(String priceView2) {
+		this.priceView2 = priceView2;
+	}
+	public String getPriceView3() {
+		return priceView3;
+	}
+	public void setPriceView3(String priceView3) {
+		this.priceView3 = priceView3;
+	}
+	
+	
 	
 }

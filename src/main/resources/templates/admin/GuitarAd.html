@@ -29,13 +29,13 @@
            <li><input th:field="*{producer}" th:value="${contact.pid}" type="radio" name="producer"/><a  th:href="@{/adguitarfilterProducer/{id}(id=${contact.pid})}" th:text="${contact.name}"></a></li>
            </div><b></b>
         
-           <li>GIÁ</li> 
+           <li>GIÁ <a class="linkModifyPrice" th:href="@{/editprice/1}">Thay đổi giá</a></li> 
            
          
-          <li><input th:field="*{price1}" th:value="1"  type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/1}" >Dưới 1,5 triệu</a></li>
-          <li><input th:field="*{price1}" th:value="2" type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/2}">Từ 1,5 đến 3 triệu</a></li>
-             <li><input th:field="*{price1}" th:value="3" type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/3}">Từ 3 đến 5 triệu</a></li>
-          <li><input th:field="*{price1}" th:value="4" type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/4}">Trên 5 triệu</a></li><b></b>
+          <li><input th:field="*{price1}" th:value="1"  type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/1}" >Dưới <span th:text="${filter.priceView1}"></span> triệu</a></li>
+          <li><input th:field="*{price1}" th:value="2" type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/2}">Từ <span th:text="${filter.priceView1}"></span> đến <span th:text="${filter.priceView2}"></span> triệu</a></li>
+             <li><input th:field="*{price1}" th:value="3" type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/3}">Từ <span th:text="${filter.priceView2}"></span> đến <span th:text="${filter.priceView3}"></span> triệu</a></li>
+          <li><input th:field="*{price1}" th:value="4" type="radio" name="price"/><a th:href="@{/adguitarfilterPrice/4}">Trên <span th:text="${filter.priceView3}"></span> triệu</a></li><b></b>
         
          <li><br/><button  class="btn btnfilter"><span  class="glyphicon glyphicon-search"></span> Lọc</button></li> 
          </form>

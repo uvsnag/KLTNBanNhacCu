@@ -8,5 +8,5 @@ import com.example.WebProject.entity.Color;
 
 public interface ColorRepository extends CrudRepository<Color, Integer> {
 
-	 List<Color> findByNameContaining(String q);
+	 List<Color> findByName(String q);
 }

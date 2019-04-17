@@ -17,5 +17,5 @@ public interface Category2Service {
     void delete(int id);
     List<Category2> findByIdcpContaining(int q);
 	List<Category2> search(String q);
-	 List<Category2> findByCategoryContaining(String q);
+	 Category2 findByCategoryContaining(String q);
 }

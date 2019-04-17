@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.WebProject.entity.Category;
+import com.example.WebProject.entity.Category2;
 import com.example.WebProject.repository.CategoryRepository;
 import com.example.WebProject.service.CategoryService;
 @Service
@@ -41,8 +42,14 @@ public class CategoryServiceImp 	implements CategoryService {
 		    	
 		    }
 		    @Override
-		    public  List<Category> findByCategoryContaining(String q){
-		    	return categoryRepository.findByCategoryContaining(q);
+		    public  Category findByCategoryContaining(String q){
+		    	Category result=new Category();
+		    	for(Category cl:categoryRepository.findAll()) {
+					if(q.equals(cl.getCategory())) {
+						result= cl;
+					}
+				}
+		    	return result;
 		    }
 		  
 	}
