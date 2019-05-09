@@ -124,5 +124,11 @@ switch(Number(dg)) {
 	default:
 		/*document.getElementById("danhgia").innerHTML = "có lỗi khi load dữ liệu!";*/
 	}
-}
 
+};
+
+function doiGiaNiemYet(){
+	var dg = document.getElementById("gianhapvao").value;
+	var kq= Number(dg)+Number(dg)*20/100;
+	 document.getElementById("gianiemyet").value = kq;
+};

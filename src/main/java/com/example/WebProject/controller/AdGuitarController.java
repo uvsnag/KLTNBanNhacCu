@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.WebProject.WebProjectApplication;
-import com.example.WebProject.dao.ProductDao;
 import com.example.WebProject.entity.Color;
 import com.example.WebProject.entity.Producer;
 import com.example.WebProject.entity.Products;
@@ -168,7 +167,7 @@ public class AdGuitarController {
 
 	@GetMapping("/adguitar/{id}/delete")
 	public String delete(@PathVariable int id, RedirectAttributes redirect) {
-
+ 
 		productRepository.delete(id);
 
 		redirect.addFlashAttribute("success", "Deleted guitar successfully!");

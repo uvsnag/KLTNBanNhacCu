@@ -47,6 +47,27 @@ public class ProductInfo {
 		this.giasaugiam=giasaugiam;
 	
 	}
+	
+	public ProductInfo(int id, String name,  String category,  String category2, String producer, String color, int rate,
+			int soluong, String gia, int luotdanhgia, int giamgia, String giasaugiam, String gianhapvao) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.category2 = category2;
+		this.producer = producer;
+		this.color = color;
+		this.rate = rate;
+		this.soluong = soluong;
+		this.gia = gia;
+		this.luotdanhgia = luotdanhgia;
+		this.giamgia=giamgia;
+		this.giasaugiam=giasaugiam;
+		this.gianhapvao=gianhapvao;
+	}
+	
+	
+	
 	public ProductInfo(int id, String name,  String category, String category2, String producer, String color, int rate,
 			int soluong, String gia, int luotdanhgia, int giamgia, String giasaugiam, int visits) {
 		super();
@@ -104,9 +125,18 @@ public class ProductInfo {
 	private int luotdanhgia;
 	private int giamgia;
 	private String giasaugiam;
-	 private MultipartFile FileData;
-	 private int visits;
-	
+	private MultipartFile FileData;
+	private int visits;
+	private String gianhapvao;
+	 
+	 
+	 
+	public String getGianhapvao() {
+		return gianhapvao;
+	}
+	public void setGianhapvao(String gianhapvao) {
+		this.gianhapvao = gianhapvao;
+	}
 	public int getVisits() {
 		return visits;
 	}

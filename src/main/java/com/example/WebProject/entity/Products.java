@@ -74,7 +74,7 @@ public class Products implements Serializable {
 	}
 
 	public Products(int id, String name, Category categoryid, Category2 category2id, Producer producerid, Color colorid,
-			int soluong, String gia, int giamgia, String giasaugiam) {
+			int soluong, String gia, int giamgia, String giasaugiam, String gianhapvao) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -86,7 +86,9 @@ public class Products implements Serializable {
 		this.gia = gia;
 		this.giamgia = giamgia;
 		this.giasaugiam = giasaugiam;
+		this.gianhapvao = gianhapvao;
 	}
+	
 
 
 	public Products( String name, Category categoryid, Category2 category2id, Producer producerid, Color colorid,
@@ -106,6 +108,29 @@ public class Products implements Serializable {
 		this.giasaugiam = giasaugiam;
 		this.giasaugiam = giasaugiam;
 		this.visits = visits;
+
+	}
+	
+	
+	
+	public Products( String name, Category categoryid, Category2 category2id, Producer producerid, Color colorid,
+			double rate, int soluot, int soluong, String gia, int giamgia, String giasaugiam, int visits, String gianhapvao) {
+		super();
+	
+		this.name = name;
+		this.categoryid = categoryid;
+		this.category2id = category2id;
+		this.producerid = producerid;
+		this.colorid = colorid;
+		this.rate = rate;
+		this.soluot = soluot;
+		this.soluong = soluong;
+		this.gia = gia;
+		this.giamgia = giamgia;
+		this.giasaugiam = giasaugiam;
+		this.giasaugiam = giasaugiam;
+		this.visits = visits;
+		this.gianhapvao = gianhapvao;
 
 	}
 
@@ -135,6 +160,29 @@ public class Products implements Serializable {
 
 	@Column(name = "visits", nullable = false)
 	private int visits;
+	
+	
+	@Column(name = "gianhapvao", nullable = true) 
+	private String gianhapvao;
+
+	
+	public Collection<CartLineInfoView> getCartLineInfo() {
+		return cartLineInfo;
+	}
+
+	public void setCartLineInfo(Collection<CartLineInfoView> cartLineInfo) {
+		this.cartLineInfo = cartLineInfo;
+	}
+
+	
+
+	public String getGianhapvao() {
+		return gianhapvao;
+	}
+
+	public void setGianhapvao(String gianhapvao) {
+		this.gianhapvao = gianhapvao;
+	}
 
 	public int getVisits() {
 		return visits;

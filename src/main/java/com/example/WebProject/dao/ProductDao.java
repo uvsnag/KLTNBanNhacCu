@@ -133,7 +133,7 @@ public class ProductDao {
 			ProductInfo gtinfo = new ProductInfo(gt.getId(), gt.getName(), gt.getCategoryid().getCategory(),
 					gt.getCategory2id().getCategory(), gt.getProducerid().getName(), gt.getColorid().getName(),
 					(int) gt.getRate(), gt.getSoluong(), gt.getGia(), gt.getSoluot(), gt.getGiamgia(),
-					gt.getGiasaugiam());
+					gt.getGiasaugiam(), gt.getGianhapvao());
 			if (gt.getDatepr() != null) {
 				gtinfo.setDatepr(gt.getDatepr().toString());
 			}
@@ -224,7 +224,7 @@ public class ProductDao {
 				producerRepository.findByNameContaining(productInfo.getProducer()).get(0),
 				colorService.findByNameContaining(productInfo.getColor()), productInfo.getSoluong(),
 				productInfo.getGia(), productInfo.getGiamgia(),
-				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()));
+				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()),  productInfo.getGianhapvao());
 		// set date
 		if (productInfo.getDatepr().toString().trim().equals("") == false) {
 
@@ -278,7 +278,7 @@ public class ProductDao {
 				colorService.findByNameContaining(productInfo.getColor()), 
 				0, 0, productInfo.getSoluong(),
 				productInfo.getGia(), productInfo.getGiamgia(),
-				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()), 0);
+				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()), 0, productInfo.getGianhapvao());
 		// set date
 		if (productInfo.getDatepr().toString().trim().equals("") == false) {
 
@@ -311,7 +311,6 @@ public class ProductDao {
 		}
 
 		productRepository.save(gt);
-
 
 	}
 
