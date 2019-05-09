@@ -97,7 +97,7 @@ public class ProductDao {
 			i++;
 		}
 
-		return listInfo;
+		return listInfo; 
 	}
 
 	// hien thi sp - in tien
