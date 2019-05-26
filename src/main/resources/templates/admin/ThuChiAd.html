@@ -13,6 +13,10 @@
 
 		<form action="#" th:action="@{/adtc/check}" th:object="${model}"
 			method="POST" enctype="multipart/form-data">
+			<a class="linkModifyPrice" th:href="@{/adtc/checkdate}">Hôm nay</a>
+			<a class="linkModifyPrice" th:href="@{/adtc/checkmonth}">Tháng này</a>
+			<a class="linkModifyPrice" th:href="@{/adtc/checkyear}">Năm này</a>
+			<br/>
 			<div class="form-group">
 				<label>Ngày bắt đầu:</label> <input type="date"
 					th:value="${model.dateStart}" class="form-control size-input-date"
@@ -35,6 +39,9 @@
 			<div class="form-group">
 				<label>Tổng hóa đơn:</label> <label th:text="${model.numBill}"></label>
 			</div>
+			<div class="form-group">
+				<label>Tổng tiền nhập:</label> <label id="numMoneyBuy" th:text="${model.numMoneyBuy}"></label>
+			</div>
  <label style="display: none;" id="tittle"  th:text="${tittle}" ></label>
 			<button type="submit" class="btn btn-success btnsave">Tra
 				cứu</button>
@@ -48,13 +55,13 @@ window.onload = function () {
 	
 	var sumMoneySell=document.getElementById("numMoneySell").textContent;
 	var revenue=document.getElementById("revenue").textContent;
-	var v1=document.getElementById("revenue").textContent;
+	var numPurchaseMoney=document.getElementById("numMoneyBuy").textContent;
 	var title=document.getElementById("tittle").textContent;
 var chart = new CanvasJS.Chart("chartContainer", {
 	theme: "light1", // "light2", "dark1", "dark2"
 	animationEnabled: false, // change to true		
 	title:{
-		text: tittle+""
+		text: ""
 	},
 	data: [
 	{
@@ -63,7 +70,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		dataPoints: [
 			{ label: "Tổng số tiền bán ra",  y: Number(sumMoneySell)  },
 			{ label: "Tiền lãi tương ứng", y: Number(revenue)  },
-			{ label: "Tổng số tiền nhập hàng",  y: Number(v1)  }
+			{ label: "Tổng số tiền nhập hàng",  y: Number(numPurchaseMoney)  }
 		]
 	}
 	]
@@ -74,7 +81,9 @@ chart.render();
 </script>
 	<div class="container jumbotron right">
 		
-
+	
+				<span th:text="${tittle}"></span>
+		
 
 
 <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>

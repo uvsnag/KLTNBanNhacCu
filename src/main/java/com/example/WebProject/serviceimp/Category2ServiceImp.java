@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.WebProject.entity.Category2;
-import com.example.WebProject.entity.Color;
 import com.example.WebProject.repository.Category2Repository;
 import com.example.WebProject.service.Category2Service;
 @Service

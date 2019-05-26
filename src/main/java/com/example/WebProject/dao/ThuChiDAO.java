@@ -1,10 +1,5 @@
 package com.example.WebProject.dao;
 
-import java.util.List;
-
-import com.example.WebProject.entity.CartInfo;
-import com.example.WebProject.model.ThuChiModel;
-
 public class ThuChiDAO {
 
 	

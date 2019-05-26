@@ -1,8 +1,6 @@
 package com.example.WebProject.service;
 
 
-import java.util.List;
-
 import com.example.WebProject.entity.Color;
 
 public interface ColorService {
