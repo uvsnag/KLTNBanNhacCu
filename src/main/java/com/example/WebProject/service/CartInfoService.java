@@ -2,6 +2,7 @@
 package com.example.WebProject.service;
 
 
+import java.sql.Date;
 import java.util.List;
 
 import com.example.WebProject.entity.CartInfo;
@@ -19,5 +20,5 @@ public interface CartInfoService {
     void delete(int id);
 
 	public List<CartInfo> findCartInfosByIdcustomer(Customer q);
-	
+	public List<CartInfo> findByDateBetween(Date from, Date to);
 }

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.WebProject.WebProjectApplication;
+import com.example.WebProject.entity.PriceSearch;
 import com.example.WebProject.model.ProductFillter;
 import com.example.WebProject.model.ProductInfo;
 import com.example.WebProject.service.Category2Service;
+import com.example.WebProject.service.PriceSearchService;
 import com.example.WebProject.service.ProducerService;
 import com.example.WebProject.service.ProductFilterService;
 import com.example.WebProject.service.ProductService;
@@ -35,9 +37,19 @@ public class FilterDrumController {
 	
 	@Autowired
 	private Category2Service category2Service;
-	
+	@Autowired
+	private PriceSearchService priceSearchService;
 	private void AddAtribute(Model model){
-		model.addAttribute("filter", new ProductFillter(-1, -1, -1, -1));
+		ProductFillter prdFilter=new ProductFillter(-1, -1, -1, -1);
+		PriceSearch priceSearch =priceSearchService.findOne(WebProjectApplication.filterDrum);
+		prdFilter.setPriceView1(priceSearch.getPrice1()%1000000==0 ? Integer.toString(priceSearch.getPrice1()/1000000) 
+				: Integer.toString(priceSearch.getPrice1()/1000000)+","+Integer.toString((priceSearch.getPrice1()%1000000)/100000));
+		prdFilter.setPriceView2(priceSearch.getPrice2()%1000000==0 ? Integer.toString(priceSearch.getPrice2()/1000000) 
+				: Integer.toString(priceSearch.getPrice2()/1000000)+","+Integer.toString((priceSearch.getPrice2()%1000000)/100000));
+		prdFilter.setPriceView3(priceSearch.getPrice3()%1000000==0 ? Integer.toString(priceSearch.getPrice3()/1000000) 
+				: Integer.toString(priceSearch.getPrice3()/1000000)+","+Integer.toString((priceSearch.getPrice3()%1000000)/100000));
+		
+		model.addAttribute("filter",prdFilter );
 		model.addAttribute("producers", productFilterService.list5Producer(WebProjectApplication.filterDrum));
 		model.addAttribute("categories", category2Service.findByIdcpContaining(WebProjectApplication.filterDrum));
 		model.addAttribute("prnumber", WebProjectApplication.productNumber);
@@ -104,14 +116,15 @@ public class FilterDrumController {
 	}
 	List<ProductInfo> ListPrice(int p1, List<ProductInfo> listdrumInfo  ){
 		List<ProductInfo> drumInfo=new ArrayList<ProductInfo>();
+		PriceSearch priceSearch =priceSearchService.findOne(WebProjectApplication.filterDrum);
 		switch(p1){
-		case 1: drumInfo=productFilterService.filterPrice(1,5000000, listdrumInfo);
+		case 1: drumInfo=productFilterService.filterPrice(1,priceSearch.getPrice1(), listdrumInfo);
 		break;
-		case 2: drumInfo=productFilterService.filterPrice(5000000,15000000, listdrumInfo);
+		case 2: drumInfo=productFilterService.filterPrice(priceSearch.getPrice1(),priceSearch.getPrice2(), listdrumInfo);
 		break;
-		case 3: drumInfo=productFilterService.filterPrice(15000000,30000000, listdrumInfo);
+		case 3: drumInfo=productFilterService.filterPrice(priceSearch.getPrice2(),priceSearch.getPrice3(), listdrumInfo);
 		break;
-		case 4: drumInfo=productFilterService.filterPrice(30000000, listdrumInfo);
+		case 4: drumInfo=productFilterService.filterPrice(priceSearch.getPrice3(), listdrumInfo);
 		break;
 		}
 		return drumInfo;

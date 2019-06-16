@@ -1,8 +1,6 @@
 package com.example.WebProject.service;
 
 
-import java.util.List;
-
 import com.example.WebProject.entity.Color;
 
 public interface ColorService {
@@ -16,6 +14,6 @@ public interface ColorService {
 
     void delete(int id);
 
-	List<Color> search(String q);
-	List<Color> findByNameContaining(String q);
+	
+	Color findByNameContaining(String q);
 }

@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.WebProject.WebProjectApplication;
-import com.example.WebProject.dao.ProductDao;
 import com.example.WebProject.entity.Color;
-import com.example.WebProject.entity.Ma;
 import com.example.WebProject.entity.Producer;
 import com.example.WebProject.entity.Products;
 import com.example.WebProject.model.ProductInfo;
@@ -33,8 +31,8 @@ import com.example.WebProject.repository.ProductRepository;
 import com.example.WebProject.service.Category2Service;
 import com.example.WebProject.service.CategoryService;
 import com.example.WebProject.service.ColorService;
-import com.example.WebProject.service.MaService;
 import com.example.WebProject.service.ProducerService;
+import com.example.WebProject.service.ProductService;
 import com.example.WebProject.validator.EditColorValidator;
 import com.example.WebProject.validator.EditProducerValidator;
 import com.example.WebProject.validator.EditProductValidator;
@@ -44,7 +42,8 @@ public class AdGuitarController {
 	@Autowired
 	 private ProductRepository productRepository;
 	@Autowired
-	private ProductDao productDao;
+	private ProductService productService;
+	
 
 	//
 	@Autowired
@@ -52,9 +51,6 @@ public class AdGuitarController {
 	@Autowired
 
 	private ProducerService producerService;
-	@Autowired
-
-	private MaService maService;
 
 	@Autowired
 	private Category2Service category2Service;
@@ -118,7 +114,7 @@ public class AdGuitarController {
 	@GetMapping("/adguitar/{id}/edit")
 	public String edit(@PathVariable int id, Model model) {
 
-		model.addAttribute("contact", productDao.findProductInfoSave(id));
+		model.addAttribute("contact", productService.findProductInfoSave(id));
 		AddCategoryColorProduct(model);
 		model.addAttribute("filter", WebProjectApplication.filterGuitar);
 		return "/admin/GuitarEdit";
@@ -134,7 +130,7 @@ public class AdGuitarController {
 		}
 
 		contact.setValid(true);
-		productDao.save(contact);
+		productService.save(contact);
 		
 		redirect.addFlashAttribute("success", "Saved guitar successfully!");
 		return "redirect:/adguitar";
@@ -144,7 +140,6 @@ public class AdGuitarController {
 	public String create(Model model) {
 		ProductInfo gt = new ProductInfo();
 
-		gt.setId(maService.findOne(1).getProduct());
 		gt.setRate(0);
 		gt.setLuotdanhgia(0);
 		gt.setCategory(categoryService.findOne(WebProjectApplication.filterGuitar).getCategory());
@@ -164,7 +159,7 @@ public class AdGuitarController {
 			return "/admin/GuitarCreate";
 		}
 		contact.setValid(true);
-		productDao.SaveCreate(contact);
+		productService.SaveCreate(contact);
 		// productService.save(guitar);
 		redirect.addFlashAttribute("success", "Saved guitar successfully!");
 		return "redirect:/adguitar";
@@ -172,7 +167,7 @@ public class AdGuitarController {
 
 	@GetMapping("/adguitar/{id}/delete")
 	public String delete(@PathVariable int id, RedirectAttributes redirect) {
-
+ 
 		productRepository.delete(id);
 
 		redirect.addFlashAttribute("success", "Deleted guitar successfully!");
@@ -252,7 +247,6 @@ public class AdGuitarController {
 	@GetMapping("/adproducer/{fil}/create")
 	public String createProducer(Model model, @PathVariable int fil) {
 		Producer p = new Producer();
-		p.setPid(maService.findOne(1).getProducer());
 		p.setIdpr(fil);
 		model.addAttribute("contact", p);
 
@@ -275,12 +269,7 @@ public class AdGuitarController {
 
 			return "/admin/ProducerEdit";
 		}
-		if (producerService.findOne(contact.getPid()) == null) {
-
-			Ma ma = maService.findOne(1);
-			Ma vma = new Ma(1, ma.getProduct(), ma.getProducer() + 1, ma.getColor(), ma.getCart(), ma.getCartline(), ma.getComment());
-			maService.save(vma);
-		}
+		
 
 		producerService.save(contact);
 		PrAddModel(model, contact.getIdpr());
@@ -312,7 +301,6 @@ public class AdGuitarController {
 	@GetMapping("/adcolor/create")
 	public String createColor(Model model) {
 		Color p = new Color();
-		p.setId(maService.findOne(1).getColor());
 
 		model.addAttribute("contact", p);
 
@@ -335,11 +323,7 @@ public class AdGuitarController {
 		if (result.hasErrors()) {
 			return "/admin/ColorEdit";
 		}
-		if (colorService.findOne(contact.getId()) == null) {
-			Ma ma = maService.findOne(1);
-			Ma vma = new Ma(1, ma.getProduct(), ma.getProducer(), ma.getColor() + 1, ma.getCart(), ma.getCartline(), ma.getComment());
-			maService.save(vma);
-		}
+		
 
 		colorService.save(contact);
 		redirect.addFlashAttribute("success", "Saved color successfully!");

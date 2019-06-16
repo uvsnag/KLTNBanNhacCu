@@ -41,8 +41,14 @@ public class CategoryServiceImp 	implements CategoryService {
 		    	
 		    }
 		    @Override
-		    public  List<Category> findByCategoryContaining(String q){
-		    	return categoryRepository.findByCategoryContaining(q);
+		    public  Category findByCategoryContaining(String q){
+		    	Category result=new Category();
+		    	for(Category cl:categoryRepository.findAll()) {
+					if(q.equals(cl.getCategory())) {
+						result= cl;
+					}
+				}
+		    	return result;
 		    }
 		  
 	}

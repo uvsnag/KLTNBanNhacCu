@@ -1,5 +1,6 @@
 package com.example.WebProject.serviceimp;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,9 @@ public class CartInfoServiceIml 	implements CartInfoService {
 		    @Override
 		    public List<CartInfo> findCartInfosByIdcustomer(Customer q) {
 		        return cartInfoRepository.findCartInfosByIdcustomer(q);
+		    }
+		    @Override
+		    public List<CartInfo> findByDateBetween(Date from, Date to) {
+		        return cartInfoRepository.findByDateBetween( from,  to);
 		    }
 	}

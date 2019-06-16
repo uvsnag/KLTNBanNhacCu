@@ -43,7 +43,4 @@ public class CartLineInfoIndentity implements Serializable{
 	public void setProduct(Products product) {
 		this.product = product;
 	}
-	
-	
-	
 }

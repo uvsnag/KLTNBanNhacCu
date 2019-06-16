@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -14,60 +15,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.WebProject.entity.Color;
 import com.example.WebProject.entity.CommentRateView;
-import com.example.WebProject.entity.Ma;
+import com.example.WebProject.entity.HoaDonNhap;
 import com.example.WebProject.entity.Products;
 import com.example.WebProject.model.CommentRateInfo;
 import com.example.WebProject.model.ProductInfo;
-import com.example.WebProject.repository.Category2Repository;
-import com.example.WebProject.repository.CategoryRepository;
-import com.example.WebProject.repository.ColorRepository;
+import com.example.WebProject.repository.HoaDonNhapRepository;
 import com.example.WebProject.repository.ProducerRepository;
 import com.example.WebProject.repository.ProductRepository;
-import com.example.WebProject.service.MaService;
+import com.example.WebProject.service.Category2Service;
+import com.example.WebProject.service.CategoryService;
+import com.example.WebProject.service.ColorService;
 
 @Transactional
 @Repository
 public class ProductDao {
-	
-	@Autowired
-	 private ProductRepository productRepository;
-	@Autowired
-    private CategoryRepository categoryRepository;
-	@Autowired
-    private Category2Repository category2Repository;
-	@Autowired
-    private ColorRepository colorRepository;
-	@Autowired
-    private ProducerRepository producerRepository;
 
 	@Autowired
+	private ProductRepository productRepository;
+	@Autowired
+	private CategoryService categoryService;
+	@Autowired
+	private Category2Service category2Service;
+	@Autowired
+	private ColorService colorService;
+	@Autowired
+	private ProducerRepository producerRepository;
+	@Autowired
+	private HoaDonNhapRepository hoaDonNhapRepository;
 
-	private MaService maService;
-
-	
 	public List<ProductInfo> Search(String q) {
 
 		try {
 
-			
 			List<ProductInfo> listproduct = new ArrayList<ProductInfo>();
-		
+
 			ProductInfo gtinfo;
 
-			for (Products gt: productRepository.findByNameContaining(q)) {// search products
-				
-				
-					gtinfo = new ProductInfo(gt.getId(), gt.getName(), gt.getCategoryid().getCategory(),
-							gt.getCategory2id().getCategory(), gt.getProducerid().getName(), gt.getColorid().getName(),
-							(int) gt.getRate(), gt.getSoluong(), intien(gt.getGia()), gt.getSoluot(), gt.getGiamgia(),
-							intien(gt.getGiasaugiam()));
-					if (gt.getDatepr() != null) {
-						gtinfo.setDatepr(gt.getDatepr().toString());
-					}
+			for (Products gt : productRepository.findByNameContaining(q)) {// search products
 
-					listproduct.add(gtinfo);
-				
+				gtinfo = new ProductInfo(gt.getId(), gt.getName(), gt.getCategoryid().getCategory(),
+						gt.getCategory2id().getCategory(), gt.getProducerid().getName(), gt.getColorid().getName(),
+						(int) gt.getRate(), gt.getSoluong(), intien(gt.getGia()), gt.getSoluot(), gt.getGiamgia(),
+						intien(gt.getGiasaugiam()));
+				if (gt.getDatepr() != null) {
+					gtinfo.setDatepr(gt.getDatepr().toString());
+				}
+
+				listproduct.add(gtinfo);
 
 			}
 			return listproduct;
@@ -75,25 +71,25 @@ public class ProductDao {
 			return null;
 		}
 	}
-	
+
 	/* ??????????????????????????????????????????????????????????????? */
 	//
 	// get 10 comment most recent to display on comment
 	//
 	//
-	
-	public List<CommentRateInfo> Get10Comment(int id) {//id: id of product
+
+	public List<CommentRateInfo> Get10Comment(int id) {// id: id of product
 
 		List<CommentRateView> list = new ArrayList<CommentRateView>();
 		List<CommentRateInfo> listInfo = new ArrayList<CommentRateInfo>();
 		list.addAll(productRepository.findOne(id).getCommentrateview());
-		 SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy ");  
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy ");
 		if (list.size() <= 0) {
 			return null;
 		}
 		int i = 0;
 		while (i < list.size()) {
-			listInfo.add(new CommentRateInfo(list.get(i).getRate()/2, list.get(i).getComment(),
+			listInfo.add(new CommentRateInfo(list.get(i).getRate() / 2, list.get(i).getComment(),
 					formatter.format(list.get(i).getDate()).toString(), list.get(i).getCustommer().getName()));
 			i++;
 		}
@@ -134,7 +130,7 @@ public class ProductDao {
 			ProductInfo gtinfo = new ProductInfo(gt.getId(), gt.getName(), gt.getCategoryid().getCategory(),
 					gt.getCategory2id().getCategory(), gt.getProducerid().getName(), gt.getColorid().getName(),
 					(int) gt.getRate(), gt.getSoluong(), gt.getGia(), gt.getSoluot(), gt.getGiamgia(),
-					gt.getGiasaugiam());
+					gt.getGiasaugiam(), gt.getGianhapvao());
 			if (gt.getDatepr() != null) {
 				gtinfo.setDatepr(gt.getDatepr().toString());
 			}
@@ -146,17 +142,16 @@ public class ProductDao {
 	}
 
 	// find all
-	public List<ProductInfo> findAllInfoProduct(int cid) {//cid: id of category2
+	public List<ProductInfo> findAllInfoProduct(int cid) {// cid: id of category2
 
 		try {
 
-			
 			List<ProductInfo> listproduct = new ArrayList<ProductInfo>();
-		
+
 			ProductInfo gtinfo;
 
-			for (Products gt: productRepository.findAll()) {
-				
+			for (Products gt : productRepository.findAll()) {
+
 				if (gt.getCategoryid().getId() == cid) {
 					gtinfo = new ProductInfo(gt.getId(), gt.getName(), gt.getCategoryid().getCategory(),
 							gt.getCategory2id().getCategory(), gt.getProducerid().getName(), gt.getColorid().getName(),
@@ -217,15 +212,17 @@ public class ProductDao {
 	}
 
 	public void save(ProductInfo productInfo) {
+		
 		// create objectProductsfrom productinfo
 		final byte[] productImage = productRepository.findOne(productInfo.getId()).getImage();
 		Products gt = new Products(productInfo.getId(), productInfo.getName(),
-				categoryRepository.findByCategoryContaining(productInfo.getCategory()).get(0),
-				category2Repository.findByCategoryContaining(productInfo.getCategory2()).get(0),
+				categoryService.findByCategoryContaining(productInfo.getCategory()),
+				category2Service.findByCategoryContaining(productInfo.getCategory2()),
 				producerRepository.findByNameContaining(productInfo.getProducer()).get(0),
-				colorRepository.findByNameContaining(productInfo.getColor()).get(0), productInfo.getSoluong(),
+				colorService.findByNameContaining(productInfo.getColor()), productInfo.getSoluong(),
 				productInfo.getGia(), productInfo.getGiamgia(),
-				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()));
+				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()),
+				productInfo.getGianhapvao());
 		// set date
 		if (productInfo.getDatepr().toString().trim().equals("") == false) {
 
@@ -259,20 +256,37 @@ public class ProductDao {
 		} else
 			gt.setImage(productImage);
 
+		if(gt.getSoluong()>productRepository.findOne(gt.getId()).getSoluong()) {
+			
+			int numPr=gt.getSoluong()-productRepository.findOne(gt.getId()).getSoluong();
+			int numMoney=gt.getSoluong()*Integer.parseInt(gt.getGianhapvao());
+			SaveBill(gt, numPr, numMoney );
+		}
+		
 		productRepository.save(gt);
 
+		
+	 
+		
 	}
 
 	public void SaveCreate(ProductInfo productInfo) {
-		Ma ma = maService.findOne(1);
+
 		// int entityProductsfrom productInfo-non gianiemyet, rate, status
-		Products gt = new Products(ma.getProduct(), productInfo.getName(),
-				categoryRepository.findByCategoryContaining(productInfo.getCategory()).get(0),
-				category2Repository.findByCategoryContaining(productInfo.getCategory2()).get(0),
+		String s = productInfo.getColor();
+		System.out.println(s);
+		System.out.println(colorService.findByNameContaining(productInfo.getColor()));
+		for (Color cl : colorService.findAll()) {
+			System.out.println(cl.getName());
+		}
+		Products gt = new Products(productInfo.getName(),
+				categoryService.findByCategoryContaining(productInfo.getCategory()),
+				category2Service.findByCategoryContaining(productInfo.getCategory2()),
 				producerRepository.findByNameContaining(productInfo.getProducer()).get(0),
-				colorRepository.findByNameContaining(productInfo.getColor()).get(0), 0, 0, productInfo.getSoluong(),
+				colorService.findByNameContaining(productInfo.getColor()), 0, 0, productInfo.getSoluong(),
 				productInfo.getGia(), productInfo.getGiamgia(),
-				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()), 0);
+				GiaSauGiam(Integer.parseInt(productInfo.getGia()), productInfo.getGiamgia()), 0,
+				productInfo.getGianhapvao());
 		// set date
 		if (productInfo.getDatepr().toString().trim().equals("") == false) {
 
@@ -305,9 +319,34 @@ public class ProductDao {
 		}
 
 		productRepository.save(gt);
+		
+	
+		
+		
+		SaveBill(gt, gt.getSoluong(), gt.getSoluong()*Integer.parseInt(gt.getGianhapvao()) );
+	}
 
-		Ma vma = new Ma(1, ma.getProduct() + 1, ma.getProducer(), ma.getColor(), ma.getCart(), ma.getCartline(), ma.getComment());
-		maService.save(vma);
+	public void SaveBill(Products product, int numPr, int numMoney) {
+		HoaDonNhap hoaDonNhap = new HoaDonNhap();
+		try {
+			
+			hoaDonNhap.setProduct(product);
+			hoaDonNhap.setNumpr(numPr);
+			hoaDonNhap.setNumMoney(numMoney);;
+			Date date = new Date();
+
+			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sdf.format(date);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			hoaDonNhap.setDate(sqlDate);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+
+	hoaDonNhapRepository.save(hoaDonNhap);
 
 	}
 

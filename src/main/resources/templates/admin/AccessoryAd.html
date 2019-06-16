@@ -35,20 +35,19 @@
 					th:text="${contact.name}"></a></li>
 			</div><b></b>
 
-			<li>GIÁ</li>
+			 <li>GIÁ <a class="linkModifyPrice" th:href="@{/editprice/5}">Thay đổi giá</a></li> 
 
 
 			<li><input th:field="*{price1}" th:value="1" type="radio"
-				name="price" /><a th:href="@{/adaccessoryfilterPrice/1}">Dưới 100k
+				name="price" /><a th:href="@{/adaccessoryfilterPrice/1}">Dưới <span th:text="${filter.priceView1}"></span>K
 					</a></li>
 			<li><input th:field="*{price1}" th:value="2" type="radio"
-				name="price" /><a th:href="@{/adaccessoryfilterPrice/2}">Từ 100k đến 300k
+				name="price" /><a th:href="@{/adaccessoryfilterPrice/2}">Từ <span th:text="${filter.priceView1}"></span>K đến <span th:text="${filter.priceView2}"></span> triệu
 					</a></li>
 			<li><input th:field="*{price1}" th:value="3" type="radio"
-				name="price" /><a th:href="@{/adaccessoryfilterPrice/3}">Từ 300k đến
-					500k</a></li>
+				name="price" /><a th:href="@{/adaccessoryfilterPrice/3}">Từ <span th:text="${filter.priceView2}"></span> đến <span th:text="${filter.priceView3}"></span> triệu</a></li>
 			<li><input th:field="*{price1}" th:value="4" type="radio"
-				name="price" /><a th:href="@{/adaccessoryfilterPrice/4}">Trên 500k
+				name="price" /><a th:href="@{/adaccessoryfilterPrice/4}">Trên <span th:text="${filter.priceView3}"></span> triệu
 					</a></li><b></b>
 
 			<li><br />

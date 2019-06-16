@@ -42,8 +42,14 @@ public class Category2ServiceImp 	implements Category2Service {
 		    	
 		    }
 		    @Override
-		    public  List<Category2> findByCategoryContaining(String q){
-		    	return categoryRepository.findByCategoryContaining(q);
+		    public  Category2 findByCategoryContaining(String q){
+		    	Category2 result=new Category2();
+		    	for(Category2 cl:categoryRepository.findAll()) {
+					if(q.equals(cl.getCategory())) {
+						result= cl;
+					}
+				}
+		    	return result;
 		    }
 		    @Override
 		    public List<Category2> findByIdcpContaining(int q){
