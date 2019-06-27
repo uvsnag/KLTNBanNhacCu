@@ -58,12 +58,15 @@
 				</tbody>
 			</table>
 		</th:block>
-		<br /> <a th:href="@{/}">
-			<button id="btn-click" class="btn btn-success">Xem sản phẩm khác</button>
-		</a>
-		<a th:href="@{/infoCustomer}"><button class="btnchitiet btn">
+		<br />
+		<div id="loadMore" style="">
+		<a th:href="@{/}">Xem thêm sản phẩm khác</a>
+	<!-- 	<a th:href="@{/infoCustomer}"><button class="btnchitiet btn">
 			<span class="glyphicon glyphicon-shopping-cart"></span> Mua
-		</button></a>
+			
+		</button></a> -->
+		<a th:href="@{/infoCustomer}">Mua</a>
+		</div>
 <br/><br/>
 	</div>
 

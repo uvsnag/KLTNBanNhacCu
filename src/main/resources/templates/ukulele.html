@@ -2,115 +2,130 @@
 <html lang="en">
 <head th:replace="index :: head"></head>
 <body>
-		<nav th:replace="guitar :: header"></nav>
+	<nav th:replace="guitar :: header"></nav>
 	<!--End Thanh menu-->
-<div th:fragment="content">
+	<div th:fragment="content">
 
-	<div th:fragment="ukulele_menu" class="left-menu sticky">
-		<div >
-		
-					<button style="color: red !important"  type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target="#lefttmenu ">
-						<span class="sr-only">Toggle navigation</span> <span class="	glyphicon glyphicon-chevron-down"></span> 
-					</button>
-					
 
-				</div>
-				<div class="navbar-collapse collapse" id="lefttmenu">
-		<form action="#" th:action="@{/ukulelefilter}" th:object="${filter}"
-			method="GET">
-			<li>LOẠI</li>
-			<div th:each="contact,iterStat : ${categories}">
+		<div th:fragment="guitar_menu" class="left-menu sticky">
 
-				<li><input th:field="${filter.category2}" th:value="${contact.id}"
-					type="radio" name="category" /> <a
-					th:href="@{/ukulelefilterCategory/{id}(id=${contact.id})}"
-					th:text="${contact.category}"></a></li>
-			</div><b></b>
-			<li>HÃNG</li>
+			<div>
 
-			<div th:each="contact,iterStat : ${producers}">
-				<li><input th:field="*{producer}" th:value="${contact.pid}"
-					type="radio" name="producer" /><a
-					th:href="@{/ukulelefilterProducer/{id}(id=${contact.pid})}"
-					th:text="${contact.name}"></a></li>
+				<button style="color: #49c8ef !important" type="button"
+					class="navbar-toggle" data-toggle="collapse"
+					data-target="#lefttmenu ">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="	glyphicon glyphicon-chevron-down"></span>
+				</button>
+
+
 			</div>
-<b></b>
-			<li>GIÁ</li>
+			<div class="navbar-collapse collapse" id="lefttmenu">
+				<form action="#" th:action="@{/ukulelefilter}" th:object="${filter}"
+					method="GET">
+					<li>LOẠI</li>
+					<div th:each="contact,iterStat : ${categories}">
+
+						<li><input th:field="${filter.category2}"
+							th:value="${contact.id}" type="radio" name="category" /> <a
+							th:href="@{/ukulelefilterCategory/{id}(id=${contact.id})}"
+							th:text="${contact.category}"></a></li>
+					</div>
+					<b></b>
+					<li>HÃNG</li>
+
+				<div th:each="contact,iterStat : ${producers}">
+						<li><input th:field="*{producer}" th:value="${contact.pid}"
+							type="radio" name="producer" /><a
+							th:href="@{/ukulelefilterProducer/{id}(id=${contact.pid})}"
+							th:text="${contact.name}"></a></li>
+					</div>
+					<b></b>
+					<li>GIÁ</li>
 
 
-			<li><input th:field="*{price1}" th:value="1" type="radio"
-				name="price" /><a th:href="@{/ukulelefilterPrice/1}">Dưới <span th:text="${filter.priceView1}"></span>K</a></li>
-			<li><input th:field="*{price1}" th:value="2" type="radio"
-				name="price" /><a th:href="@{/ukulelefilterPrice/2}">Từ <span th:text="${filter.priceView1}"></span>K đến <span th:text="${filter.priceView2}"></span> triệu</a></li>
-			<li><input th:field="*{price1}" th:value="3" type="radio"
-				name="price" /><a th:href="@{/ukulelefilterPrice/3}">Từ <span th:text="${filter.priceView2}"></span> đến <span th:text="${filter.priceView3}"></span> triệu</a></li>
-			<li><input th:field="*{price1}" th:value="4" type="radio"
-				name="price" /><a th:href="@{/ukulelefilterPrice/4}">Trên <span th:text="${filter.priceView3}"></span> triệu</a></li><b></b>
+					<li><input th:field="*{price1}" th:value="1" type="radio"
+						name="price" /><a th:href="@{/ukulelefilterPrice/1}">Dưới <span
+							th:text="${filter.priceView1}"></span>K
+					</a></li>					<li><input th:field="*{price1}" th:value="2" type="radio"
+						name="price" /><a th:href="@{/ukulelefilterPrice/2}">Từ <span
+							th:text="${filter.priceView1}"></span>K đến <span
+							th:text="${filter.priceView2}"></span> triệu
+					</a></li>
+					<li><input th:field="*{price1}" th:value="3" type="radio"
+						name="price" /><a th:href="@{/ukulelefilterPrice/3}">Từ <span
+							th:text="${filter.priceView2}"></span> đến <span
+							th:text="${filter.priceView3}"></span> triệu
+					</a></li>
+					<li><input th:field="*{price1}" th:value="4" type="radio"
+						name="price" /><a th:href="@{/ukulelefilterPrice/4}">Trên <span
+							th:text="${filter.priceView3}"></span> triệu
+					</a></li>
+					<b></b>
 
-			<li><br />
-				<button class="btn btnfilter">
-					<span class="glyphicon glyphicon-search"></span> Lọc
-				</button></li>
-		</form>
+					<li><br />
+						<button class="btn btnfilter">
+							<span class="glyphicon glyphicon-search"></span> Lọc
+						</button></li>
+				</form>
+			</div>
 		</div>
-	</div>
 
-	<div class="container jumbotron right">
+		<div class="container jumbotron right">
 
 
-		<div class="menu-title2">
-			<a th:text="${tittle}"></a>
-		</div>
+			<div class="menu-title2">
+				<a th:text="${tittle}"></a>
+			</div>
 
-		<th:block th:if="${#lists.isEmpty(infos)}">
-			<h3 class="sanpham">Không có dữ liệu</h3>
-		</th:block>
-		<th:block th:unless="${#lists.isEmpty(infos)}">
-			<!--san pham-->
-			<div th:each="contact,iterStat : ${infos}">
-				<div class="col-sm-3 ">
-					<div class="sanpham panel panel-default">
-						<div class="panel-body">
-							<img class="img-responsive "
-								th:src="@{|/productImage?code=${contact.id}|}" />
-							<div th:if="${contact.giamgia}!=0">
-								<div class="sticksale">
-									-<span th:text="${contact.giamgia}"></span>%
+			<th:block th:if="${#lists.isEmpty(infos)}">
+				<h3 class="sanpham">Không có dữ liệu</h3>
+			</th:block>
+			<th:block th:unless="${#lists.isEmpty(infos)}">
+				<!--san pham-->
+				<div th:each="contact,iterStat : ${infos}">
+					<div class="col-sm-3 ">
+						<div class="sanpham panel panel-default">
+							<div class="panel-body">
+								<img class="img-responsive "
+									th:src="@{|/productImage?code=${contact.id}|}" />
+								<div th:if="${contact.giamgia}!=0">
+									<div class="sticksale">
+										-<span th:text="${contact.giamgia}"></span>%
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="panel-footer">
-							<p class="tensanpham" th:text="${contact.name}"></p>
+							<div class="panel-footer">
+								<p class="tensanpham" th:text="${contact.name}"></p>
 
-							<p class="cost" th:text="${contact.giasaugiam}"></p>
+								<p class="cost" th:text="${contact.giasaugiam}"></p>
 
-							<div th:switch="${contact.giamgia}">
+								<div th:switch="${contact.giamgia}">
 
-								<p class="status" th:case="'0'" th:text="${contact.producer}"></p>
-								<p class="status" th:case="*">
-									<span class="giamgia" th:text="${contact.gia}"></span>
-								</p>
+									<p class="status" th:case="'0'" th:text="${contact.producer}"></p>
+									<p class="status" th:case="*">
+										<span class="giamgia" th:text="${contact.gia}"></span>
+									</p>
 
+								</div>
+								<a th:href="@{/product_ukulele/{id}(id=${contact.id})}"><button
+										class="btnchitiet btn">
+										<span class="glyphicon glyphicon-shopping-cart"></span> Chi
+										tiết
+									</button></a>
 							</div>
-							<a th:href="@{/product_ukulele/{id}(id=${contact.id})}"><button
-									class="btnchitiet btn">
-									<span class="glyphicon glyphicon-shopping-cart"></span> Chi
-									tiết
-								</button></a>
 						</div>
 					</div>
 				</div>
-			</div>
-		</th:block>
+			</th:block>
 
+
+
+		</div>
+		<br />
 
 
 	</div>
-	<br />
-
-
-</div>
 
 	<!--Thông tin liên hệ-->
 	<footer th:replace="index :: footer"></footer>

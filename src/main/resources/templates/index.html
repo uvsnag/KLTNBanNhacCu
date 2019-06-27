@@ -17,9 +17,12 @@
 <!-- Custom style -->
 <link href="../static/style1.css" th:href="@{/style1.css}"
 	rel="stylesheet" />
+<link rel="stylesheet"
+	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"/>
+<link href="../static/Footer-with-social-icons.css" th:href="@{/Footer-with-social-icons.css}"
+	rel="stylesheet"/>
 <link href="../static/style2.css" th:href="@{/style2.css}"
-	rel="stylesheet" />
-<link href="../static/animate.css" th:href="@{/animate.css}"
+	rel="stylesheet" /><link href="../static/animate.css" th:href="@{/animate.css}"
 	rel="stylesheet" />
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -51,7 +54,7 @@
 		logged_in_greeting="Chào bạn! Bạn cần tư vấn gì không ạ!"
 		logged_out_greeting="Chào bạn! Bạn cần tư vấn gì không ạ!"></div>
 	<!--Logo-->
-	<div th:fragment="header">
+	<div th:fragment="header" class="header">
 		<div class="info-header ">
 
 			<div class="col-sm-6">
@@ -81,37 +84,40 @@
 
 
 		<!--Thanh menu-->
-		<div id="menu">
-			<nav class=" navbar navbar-inverse">
+		<nav class="navbar navbar-inverse" id="my-navbar">
+			<div class="container">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target="#main-menu ">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#nav-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
+
 					<div class="navbar-brand">
 						<img style="width: 40px; padding: 0px;" src="../image/logo1.png"></img>
 					</div>
-
 				</div>
-				<div class="navbar-collapse collapse" id="main-menu">
-					<div class="nav navbar-nav">
+				<div class="collapse navbar-collapse" id="nav-collapse">
+					<ul class="nav navbar-nav">
 						<li><a th:href="@{/}">HOME</a></li>
 						<li><a th:href="@{/guitar}">GUITAR </a></li>
 						<li><a th:href="@{/piano}">PIANO</a></li>
-						<li><a th:href="@{/ukulele}">UKULELE </a> <!-- <ul class="dropdown-menu">
-							
-							</ul> --></li>
-						<li><a th:href="@{/drum}">TRỐNG</a> <!-- <ul class="dropdown-menu">
-								
-							</ul> --></li>
-						<li><a th:href="@{/flute}">SÁO TRÚC</a> <!-- <ul class="dropdown-menu">
-							
-							</ul> --></li>
-						<li><a th:href="@{/accessory}">PHỤ KIỆN</a> <!-- <ul class="dropdown-menu">
-								
-							</ul> --></li>
+						<li><a th:href="@{/ukulele}">UKULELE </a>
+							<ul class="dropdown-menu">
+
+							</ul></li>
+						<li><a th:href="@{/drum}">TRỐNG</a>
+							<ul class="dropdown-menu">
+
+							</ul></li>
+						<li><a th:href="@{/flute}">SÁO TRÚC</a>
+							<ul class="dropdown-menu">
+
+							</ul></li>
+						<li><a th:href="@{/accessory}">PHỤ KIỆN</a>
+							<ul class="dropdown-menu">
+
+							</ul></li>
 
 						<li><form action="#" th:action="@{/search}" method="GET"
 								th:object="${search}">
@@ -125,21 +131,21 @@
 									</div>
 								</div>
 							</form></li>
-
-					</div>
-
+					</ul>
 					<div class="nav navbar-nav navbar-right" id="lgright">
 
-						<li data-toggle="tooltip" title="Xem giỏ hàng"><a 
+						<li data-toggle="tooltip" title="Xem giỏ hàng"><a
 							th:href="@{/shoppingcartinfo}"><span th:text="${prnumber}"></span><span
 								class="glyphicon  glyphicon-shopping-cart"></span></a></li>
 						<li><a th:href="@{/login}" id="btnlogin"><span
 								class="glyphicon glyphicon-log-in"></span> Login</a></li>
 					</div>
 				</div>
-			</nav>
 
-		</div>
+			</div>
+		</nav>
+
+
 	</div>
 	<!--End Thanh menu-->
 	<div th:fragment="content">
@@ -272,9 +278,7 @@
 		<div class="tieude container wow shake">
 			<b></b>SẢN PHẨM MỚI
 		</div>
-		<br />
-		<br />
-		<br />
+		<br /> <br /> <br />
 
 		<div class="container ">
 
@@ -317,8 +321,8 @@
 				</div>
 
 			</div>
-			<div>
-				<a class="xemthem" th:href="@{/guitar}">Xem thêm</a>
+			<div id="loadMore" style="">
+				<a th:href="@{/guitar}">Xem thêm</a>
 			</div>
 
 
@@ -364,8 +368,8 @@
 
 			</div>
 
-			<div>
-				<a class="xemthem" th:href="@{/ukulele}">Xem thêm </a>
+			<div id="loadMore" style="">
+				<a th:href="@{/ukulele}">Xem thêm</a>
 			</div>
 
 		</div>
@@ -407,8 +411,8 @@
 					</div>
 				</div>
 			</div>
-			<div>
-				<a class="xemthem" th:href="@{/piano}">Xem thêm </a>
+			<div id="loadMore" style="">
+				<a th:href="@{/piano}">Xem thêm</a>
 			</div>
 		</div>
 		<div class="container ">
@@ -452,77 +456,74 @@
 
 			</div>
 
-			<div>
-				<a class="xemthem" th:href="@{/drum}">Xem thêm </a>
+			<div id="loadMore" style="">
+				<a th:href="@{/drum}">Xem thêm</a>
 			</div>
 		</div>
 		<div id="fb-root"></div>
-
-		<div class="container ">
-			<!-- style="background-color:  #666666 !important;" -->
-			<div class="menu-title">
-				<a>LIÊN HỆ </a>
-			</div>
-			<div class="col-sm-6 ">
-				<iframe
-					src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1131.8070322139502!2d106.77187246382414!3d10.850939744075358!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa6c02de0a7c40d6c!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBTxrAgcGjhuqFtIEvhu7kgdGh14bqtdCBUcC4gSOG7kyBDaMOtIE1pbmg!5e0!3m2!1svi!2s!4v1538621930233"
-					width="500" height="500" frameborder="0" style="border: 0"></iframe>
-			</div>
-			<div class="col-sm-6 ">
-				<iframe
-					src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FShop-nh%25E1%25BA%25A1c-c%25E1%25BB%25A5-SMusic-503188596822095%2F%3Fmodal%3Dadmin_todo_tour&amp;tabs=timeline&amp;width=400&amp;height=500&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId"
-					width="500" height="500" style="border: none; overflow: hidden"
-					scrolling="no" frameborder="0" allowTransparency="true"
-					allow="encrypted-media"></iframe>
-			</div>
-
-		</div>
 	</div>
 	<!--Thông tin liên hệ-->
-	<div th:fragment="footer">
-		<div class="footer">
-			<div class="container">
-				<div class="col-sm-10 ">
-					<div style="overflow: hidden container">
-						<div class="col-md-4 ">
-							<div class="tenfooter">
-								<b>Trụ sở chính:</b>
-							</div>
-							<div>
-								<span class="glyphicon glyphicon-map-marker" style="width: 16px">&nbsp;</span>1,
-								Võ văn Ngân, Linh chiểu , Q.Thủ Đức
-							</div>
-							<div>
-								<span class="glyphicon glyphicon-phone-alt" style="width: 16px">&nbsp;</span>0967863046
-							</div>
-						</div>
-						<div class="col-md-4 "></div>
-						<div class="col-md-4 ">
-							<div class="tenfooter">
-								<b>Liên hệ với chúng tôi:</b>
-							</div>
-							<div>
-								<i class="fa fa-facebook-square"
-									style="font-size: 24px; color: #9ACCDB"></i><a>Facebook</a>
-							</div>
-							<div>
-								<i class="fa fa-google-plus-square"
-									style="font-size: 24px; color: #9ACCDB"></i><a>Google+</a>
-							</div>
-						</div>
-
-					</div>
-					<div
-						style="color: #FFF; font-style: italic; font-size: 14px; padding: 10px 0 15px">
-						<br /> <br /> Copyright © Nhạc cụ SMUSIC
-					</div>
+	<!-- Footer -->
+	<footer id="myFooter">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3 myCols">
+					<h5>Chất lượng</h5>
+					<!--   <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Sign up</a></li>
+                        <li><a href="#">Downloads</a></li>
+                    </ul> -->
+					<p style="font-size: 14px; font-weight: 300;">SMusic cam kết
+						chất lượng cho tất cả sản phẩm bán tại cửa hàng SMusic bằng chính
+						sách bảo hành 365 ngày và chăm sóc trọn đời sau khi hết bảo hành.</p>
+				</div>
+				<div class="col-sm-3 myCols">
+					<h5>Phục vụ</h5>
+					<!-- <ul>
+						<li><a href="#">Company Information</a></li>
+						<li><a href="#">Contact us</a></li>
+						<li><a href="#">Reviews</a></li>
+					</ul> -->
+					<p style="font-size: 14px; font-weight: 300;">SMusic cam kết
+						chất lượng phục vụ tốt nhất cho mọi khách hàng bằng chính sách
+						hoàn tiền và tặng quà nếu nhân viên phục vụ quí khách không chu
+						đáo.</p>
+				</div>
+				<div class="col-sm-3 myCols">
+					<h5>Hỗ trợ</h5>
+					<!-- 		<ul>
+						<li><a href="#">FAQ</a></li>
+						<li><a href="#">Help desk</a></li>
+						<li><a href="#">Forums</a></li>
+					</ul> -->
+					<p style="font-size: 14px; font-weight: 300;">Nếu bạn gặp rắc
+						rối về sản phẩm hay chất lượng dịch vụ của SMusic, hãy gọi ngay
+						đến số 0847171789 hoặc inbox ở fanpage</p>
+				</div>
+				<div class="col-sm-3 myCols">
+					<h5>Giờ mở cửa</h5>
+					<!-- <ul>
+						<li><a href="#">Terms of Service</a></li>
+						<li><a href="#">Terms of Use</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+					</ul> -->
+					<p style="font-size: 14px; font-weight: 300;">
+						<strong>8h30 đến 22:00</strong><br> Tất cả các ngày trong
+						tuần</br> Áp dụng cho tất cả các chi nhánh hệ thống cửa hàng SMusic
+					</p>
 				</div>
 			</div>
 		</div>
-		<!--End Hỗ trợ-->
-
-
-	</div>
-	<!-- footter -->
+		<div class="social-networks">
+			<a href="#" class="twitter"><i class="fa fa-twitter"></i></a> <a
+				href="#" class="facebook"><i class="fa fa-facebook-official"></i></a>
+			<a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+		</div>
+		<div class="footer-copyright">
+			<p>© 2019 Copyright By Duy And Sang</p>
+		</div>
+	</footer>
+	<!-- Footer -->
 </body>
 </html>
