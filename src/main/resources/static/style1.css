@@ -31,7 +31,6 @@
 	.left-menu {
 		width: 10px;
 		/* The width is 100%, when the viewport is 800px or smaller */
-		background-color: red;
 	}
 }
 
@@ -335,7 +334,9 @@ b {
 	margin-bottom: 5px;
 	cursor: pointer;
 	font-size: 15px;
-	margin-left: 15px;
+	margin-left: 0px;
+	
+	
 }
 
 /* Hide the browser's default radio button */
@@ -359,11 +360,12 @@ b {
 	margin-left: 0px;
 	/*  background-color: #C97A00;   */
 	border: 2px solid rgba(6, 6, 6, .1);
-	width: 170px;
+	max-width: 170px;
 	border-radius: 5px;
 	top: 0px;
 	z-index: 2;
 }
+
 
 .left-menu li {
 	list-style-type: none;

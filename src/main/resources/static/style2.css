@@ -1,7 +1,7 @@
 .size-input-small{
-	width: 100px !important;
+	width: auto !important;
 }
 
 .size-input-date{
-	width: 200px !important;
+	max-width:170px;
 }
